@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/dingFragment">
+
+    <fragment
+        android:id="@+id/planeFragment"
+        android:name="me.djc.gruduatedaily.fragment.PlanFragment"
+        android:label="fragment_plane"
+        tools:layout="@layout/fragment_plan" />
+    <fragment
+        android:id="@+id/dingFragment"
+        android:name="me.djc.gruduatedaily.fragment.DingFragment"
+        android:label="fragment_ding"
+        tools:layout="@layout/fragment_ding" />
+    <fragment
+        android:id="@+id/staticFragment"
+        android:name="me.djc.gruduatedaily.fragment.AnalysisFragment"
+        android:label="fragment_static"
+        tools:layout="@layout/fragment_analysis" />
+</navigation>
