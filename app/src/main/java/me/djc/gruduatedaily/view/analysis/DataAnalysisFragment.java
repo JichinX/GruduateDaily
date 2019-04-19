@@ -1,4 +1,4 @@
-package me.djc.gruduatedaily.analysis;
+package me.djc.gruduatedaily.view.analysis;
 
 import android.os.Bundle;
 import android.view.View;
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import me.djc.base.fragment.SimpleFragment;
 import me.djc.gruduatedaily.R;
-import me.djc.gruduatedaily.analysis.adapter.AnalysisItemAdapter;
+import me.djc.gruduatedaily.view.analysis.adapter.AnalysisItemAdapter;
 import me.djc.gruduatedaily.base.AppConst;
 import me.djc.gruduatedaily.bean.AnalysisData;
 
@@ -41,10 +41,10 @@ public class DataAnalysisFragment extends SimpleFragment {
 
     @Override
     public void onDataLazyLoad() {
-        mDataList.add(new AnalysisData());
-        mDataList.add(new AnalysisData());
-        mDataList.add(new AnalysisData());
-        mDataList.add(new AnalysisData());
+        mDataList.add(new AnalysisData("数学", mType));
+        mDataList.add(new AnalysisData("物理", mType));
+        mDataList.add(new AnalysisData("线性代数", mType));
+        mDataList.add(new AnalysisData("英语", mType));
         mItemAdapter.notifyDataSetChanged();
     }
 

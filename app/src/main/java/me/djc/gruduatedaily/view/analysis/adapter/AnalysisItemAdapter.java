@@ -1,4 +1,4 @@
-package me.djc.gruduatedaily.analysis.adapter;
+package me.djc.gruduatedaily.view.analysis.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +12,15 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import me.djc.gruduatedaily.R;
+import me.djc.gruduatedaily.base.AppConst;
 import me.djc.gruduatedaily.bean.AnalysisData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
- * Des:GruduateDaily - me.djc.gruduatedaily.analysis.adapter
+ * Des:GruduateDaily - me.djc.gruduatedaily.view.analysis.adapter
  *
  * @author xujichang
  * @date 2019-04-18 - 17:16
@@ -27,15 +29,18 @@ import java.util.List;
  */
 public class AnalysisItemAdapter extends RecyclerView.Adapter<AnalysisItemAdapter.ViewHolder> {
     private List<AnalysisData> mData;
+    private Random mRandom;
 
     public AnalysisItemAdapter(List<AnalysisData> eData) {
         mData = eData;
+        mRandom = new Random();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View vView = LayoutInflater.from(parent.getContext()).inflate(R.layout.app_item_analysis, parent, false);
+        vView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         return new ViewHolder(vView);
     }
 
@@ -69,17 +74,46 @@ public class AnalysisItemAdapter extends RecyclerView.Adapter<AnalysisItemAdapte
         }
 
         private void onBindData(AnalysisData eAnalysisData, View eItemView, int eAdapterPosition) {
-            mItemTvType.setText("数学");
+            mItemTvType.setText(eAnalysisData.getTitle());
+
             List<IBarDataSet> vSets = new ArrayList<>();
             List<BarEntry> vEntryList = new ArrayList<>();
-            vEntryList.add(new BarEntry(10f, 20f));
-            vEntryList.add(new BarEntry(10f, 20f));
-            vEntryList.add(new BarEntry(10f, 20f));
-            vEntryList.add(new BarEntry(10f, 20f));
-            vEntryList.add(new BarEntry(10f, 20f));
+            switch (eAnalysisData.getType()) {
+                case AppConst.Analysistype.TAG_DAY:
+                    for (int i = 1; i <= 12; i++) {
+                        vEntryList.add(new BarEntry(i * 2, mRandom.nextInt(120)));
+                    }
+                    break;
+                case AppConst.Analysistype.TAG_WEEK:
+                    for (int i = 1; i <= 7; i++) {
+                        vEntryList.add(new BarEntry(i, mRandom.nextInt(24)));
+                    }
+                    break;
+                case AppConst.Analysistype.TAG_MOUNTH:
+                    for (int i = 1; i <= 15; i++) {
+                        vEntryList.add(new BarEntry(i * 2, mRandom.nextInt(48)));
+                    }
+                    break;
+                case AppConst.Analysistype.TAG_YEAY:
+                    for (int i = 1; i <= 12; i++) {
+                        vEntryList.add(new BarEntry(i, mRandom.nextInt(30)));
+                    }
+                    break;
+                default:
+                    break;
+            }
+
 
             vSets.add(new BarDataSet(vEntryList, "label"));
             BarData vBarData = new BarData(vSets);
+//            vBarData.setValueTextSize(10f);
+//            vBarData.setBarWidth(0.9f);
+
+            mItemChat.setDrawBarShadow(false);
+            mItemChat.setFitBars(false);
+            mItemChat.setDrawGridBackground(false);
+            mItemChat.setDrawValueAboveBar(true);
+            mItemChat.setPinchZoom(false);
             mItemChat.setData(vBarData);
         }
     }

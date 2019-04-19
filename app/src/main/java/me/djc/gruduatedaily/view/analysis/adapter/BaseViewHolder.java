@@ -1,11 +1,11 @@
-package me.djc.gruduatedaily.analysis.adapter;
+package me.djc.gruduatedaily.view.analysis.adapter;
 
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Des:GruduateDaily - me.djc.gruduatedaily.analysis.adapter
+ * Des:GruduateDaily - me.djc.gruduatedaily.view.analysis.adapter
  *
  * @author xujichang
  * @date 2019-04-18 - 18:00

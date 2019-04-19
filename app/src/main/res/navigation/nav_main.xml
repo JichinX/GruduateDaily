@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/planeFragment"
-        android:name="me.djc.gruduatedaily.fragment.PlanFragment"
+        android:name="me.djc.gruduatedaily.view.plan.PlanFragment"
         android:label="fragment_plane"
         tools:layout="@layout/fragment_plan" />
     <fragment
         android:id="@+id/dingFragment"
-        android:name="me.djc.gruduatedaily.fragment.DingFragment"
+        android:name="me.djc.gruduatedaily.view.ding.DingFragment"
         android:label="fragment_ding"
         tools:layout="@layout/fragment_ding" />
     <fragment
         android:id="@+id/staticFragment"
-        android:name="me.djc.gruduatedaily.fragment.AnalysisFragment"
+        android:name="me.djc.gruduatedaily.view.analysis.AnalysisFragment"
         android:label="fragment_static"
         tools:layout="@layout/fragment_analysis" />
 </navigation>

@@ -1,20 +1,19 @@
-package me.djc.gruduatedaily.fragment;
+package me.djc.gruduatedaily.view.ding;
 
 import android.os.Bundle;
 import android.view.View;
 import me.djc.base.fragment.BaseFragment;
-import me.djc.base.fragment.SimpleFragment;
 import me.djc.gruduatedaily.R;
 
 
-public class PlanFragment extends SimpleFragment {
+public class DingFragment extends BaseFragment {
 
-    public PlanFragment() {
+    public DingFragment() {
         // Required empty public constructor
     }
 
-    public static PlanFragment newInstance(String param1, String param2) {
-        PlanFragment fragment = new PlanFragment();
+    public static DingFragment newInstance() {
+        DingFragment fragment = new DingFragment();
 
         return fragment;
     }
@@ -23,13 +22,24 @@ public class PlanFragment extends SimpleFragment {
     protected View initView(View inflate) {
         return inflate;
     }
+
+    @Override
+    protected void onGetArguments(Bundle arguments) {
+
+    }
+
     @Override
     protected int onCreateViewRes() {
-        return R.layout.fragment_plan;
+        return R.layout.fragment_ding;
     }
 
     @Override
     public void onDataLazyLoad() {
+
+    }
+
+    @Override
+    public void refresh() {
 
     }
 }

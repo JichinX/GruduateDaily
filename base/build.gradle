@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
 
 }
 
@@ -26,4 +30,6 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.0.1'
     implementation "com.github.xujichang.XBase:base-utils:1.0.3"
     implementation project(path: ':common')
+    implementation 'androidx.room:room-runtime:2.0.0'
+    annotationProcessor 'androidx.room:room-compiler:2.0.0'
 }

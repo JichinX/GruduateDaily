@@ -3,12 +3,16 @@ package me.djc.common.adapter;
 import android.util.Log;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.util.List;
+import java.util.Random;
+
+import static android.view.View.NO_ID;
 
 /**
  * Des:EGSApp - com.codvision.egsapp.module.main.adapters
@@ -21,14 +25,19 @@ import java.util.List;
 public class FragmentsAdapter extends FragmentPagerAdapter {
     private static final String TAG = FragmentsAdapter.class.getSimpleName();
     private List<Fragment> mFragments;
+    private List<String> mTabs;
     private FragmentManager mFragmentManager;
     private FragmentTransaction mTransaction;
+    private long mTag;
 
-    public FragmentsAdapter(@NonNull FragmentManager fm, List<Fragment> fragments) {
+    public FragmentsAdapter(@NonNull FragmentManager fm, List<Fragment> fragments, List<String> eTabs) {
         super(fm);
+        mTag = new Random().nextLong();
         mFragmentManager = fm;
         mFragments = fragments;
+        mTabs = eTabs;
     }
+
     @NonNull
     @Override
     public Fragment getItem(int position) {
@@ -49,36 +58,14 @@ public class FragmentsAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        Log.i(TAG, "destroyItem: " + object);
-        if (null == mTransaction) {
-            mTransaction = mFragmentManager.beginTransaction();
-        }
-        mTransaction.remove((Fragment) object);
+    public long getItemId(int position) {
+        return mTag + position;
     }
 
+    @Nullable
     @Override
-    public int getItemPosition(@NonNull Object object) {
-        return POSITION_NONE;
-    }
-
-    public void setData(List<Fragment> fragments) {
-        mFragments = fragments;
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void notifyDataSetChanged() {
-        super.notifyDataSetChanged();
-    }
-
-    @Override
-    public void finishUpdate(@NonNull ViewGroup container) {
-        super.finishUpdate(container);
-        if (mTransaction != null) {
-            mTransaction.commitNowAllowingStateLoss();
-            mTransaction = null;
-        }
+    public CharSequence getPageTitle(int position) {
+        return mTabs.get(position);
     }
 }
 

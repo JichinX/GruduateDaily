@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.analysis.AnalysisFragment">
+    tools:context=".view.plan.PlanListFragment">
 
-    <me.djc.common.widget.FragmentsPager
-        android:id="@+id/app_fragment_pager_analysis"
+    <me.djc.common.widget.FootAndHeaderRv
+        android:id="@+id/app_plan_rv_plan_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </me.djc.common.widget.FragmentsPager>
+    </me.djc.common.widget.FootAndHeaderRv>
 </FrameLayout>

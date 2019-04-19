@@ -13,6 +13,7 @@ public class AppConst {
         public static final int TAG_DAY = 1;
         public static final int TAG_MOUNTH = 2;
         public static final int TAG_YEAY = 3;
+        public static final int TAG_WEEK = 5;
     }
 
     public static final class Value {

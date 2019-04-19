@@ -20,7 +20,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IView {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         onIntentData(getIntent());
-        setContentView(getContentlayoutRes());
+        setContentView(getContentLayoutRes());
         onDataInit();
         onViewInit();
     }
@@ -41,5 +41,5 @@ public abstract class BaseActivity extends AppCompatActivity implements IView {
      * @return
      */
     @LayoutRes
-    protected abstract int getContentlayoutRes();
+    protected abstract int getContentLayoutRes();
 }

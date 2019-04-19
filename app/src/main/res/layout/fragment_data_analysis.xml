@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".analysis.DataAnalysisFragment">
+    tools:context=".view.analysis.DataAnalysisFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/app_analysis_rv_datas"

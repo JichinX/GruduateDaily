@@ -1,4 +1,4 @@
-package me.djc.gruduatedaily.fragment;
+package me.djc.gruduatedaily.view.analysis;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -7,20 +7,30 @@ import androidx.fragment.app.Fragment;
 import me.djc.base.fragment.SimpleFragment;
 import me.djc.common.widget.FragmentsPager;
 import me.djc.gruduatedaily.R;
-import me.djc.gruduatedaily.analysis.DataAnalysisFragment;
+import me.djc.gruduatedaily.base.AppConst;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 
 public class AnalysisFragment extends SimpleFragment {
 
+    private Map<String, Fragment> mFragmentMap;
     private FragmentsPager mPager;
     private TextView mTvTitle;
     private ImageView mIvSeeting;
 
-    public AnalysisFragment() {
-        // Required empty public constructor
+    private AnalysisFragment() {
+        mFragmentMap = new LinkedHashMap<>();
+        mFragmentMap.put("日", DataAnalysisFragment.newInstance(AppConst.Analysistype.TAG_DAY));
+        mFragmentMap.put("周", DataAnalysisFragment.newInstance(AppConst.Analysistype.TAG_WEEK));
+        mFragmentMap.put("本月", DataAnalysisFragment.newInstance(AppConst.Analysistype.TAG_MOUNTH));
+    }
+
+    public static AnalysisFragment newInstance() {
+        AnalysisFragment fragment = new AnalysisFragment();
+
+        return fragment;
     }
 
     @Override
@@ -34,18 +44,10 @@ public class AnalysisFragment extends SimpleFragment {
                 mTvTitle.setText("统计");
             }
         });
-        mPager.setFragmentMap(generatePagerMap());
+        mPager.setFragmentMap(mFragmentMap);
         mPager.attachFragment(getChildFragmentManager());
         mPager.setTitleRes(R.layout.app_analusis_title);
         return inflate;
-    }
-
-    private Map<String, Fragment> generatePagerMap() {
-        Map<String, Fragment> vFragmentMap = new HashMap<>();
-        vFragmentMap.put("日", DataAnalysisFragment.newInstance(1));
-        vFragmentMap.put("周", DataAnalysisFragment.newInstance(2));
-        vFragmentMap.put("本月", DataAnalysisFragment.newInstance(3));
-        return vFragmentMap;
     }
 
     @Override

@@ -44,7 +44,6 @@ public class FragmentsPager extends LinearLayoutCompat {
     private List<String> mTabs;
     private View mTitleView;
     private int mTitleRes;
-
     public FragmentsPager(Context context) {
         this(context, null);
     }
@@ -101,15 +100,15 @@ public class FragmentsPager extends LinearLayoutCompat {
      * @param defStyleAttr
      */
     private void initView(Context context, AttributeSet attrs, int defStyleAttr) {
-
-        LayoutInflater.from(context).inflate(R.layout.custom_layout_fragments_pager, this, true);
+        setOrientation(VERTICAL);
+        LayoutInflater.from(context).inflate(R.layout.custom_view_fragments_pager, this, true);
         mFragments = new ArrayList<>();
         mTabs = new ArrayList<>();
         mTitle = findViewById(R.id.title);
 
         mTabFragments = findViewById(R.id.tab_fragments);
         mViewPager = findViewById(R.id.view_pager);
-        mViewPager.setAdapter(mFragmentsAdapter);
+        mTabFragments.setupWithViewPager(mViewPager);
         patchData();
     }
 
@@ -118,7 +117,8 @@ public class FragmentsPager extends LinearLayoutCompat {
             return;
         }
         if (null == mFragmentsAdapter) {
-            mFragmentsAdapter = new FragmentsAdapter(mFragmentManager, mFragments);
+            mFragmentsAdapter = new FragmentsAdapter(mFragmentManager, mFragments,mTabs);
+            mViewPager.setAdapter(mFragmentsAdapter);
         }
         if (null != mFragmentMap) {
             initFragments();
@@ -155,7 +155,6 @@ public class FragmentsPager extends LinearLayoutCompat {
     }
 
     private void splitMap() {
-
         mFragments.clear();
         mTabs.clear();
         for (Map.Entry<String, Fragment> vEntry : mFragmentMap.entrySet()) {

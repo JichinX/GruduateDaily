@@ -9,6 +9,8 @@
         android:id="@+id/app_analysis_tv_title"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="@dimen/size_title"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
@@ -18,7 +20,7 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="center"
-        android:src="@drawable/ic_notifications_black_24dp"
+        android:src="@drawable/ic_app_setting"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintRight_toRightOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

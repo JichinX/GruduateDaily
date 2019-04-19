@@ -16,6 +16,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
 
 }
 
@@ -26,4 +30,5 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.0.1'
     implementation 'com.haibin:calendarview:3.6.1'
     implementation 'com.google.guava:guava:27.1-android'
+    implementation 'androidx.palette:palette:1.0.0'
 }

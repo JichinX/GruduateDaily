@@ -1,4 +1,4 @@
-package me.djc.gruduatedaily;
+package me.djc.gruduatedaily.viewmodel;
 
 import android.app.Application;
 import androidx.annotation.NonNull;

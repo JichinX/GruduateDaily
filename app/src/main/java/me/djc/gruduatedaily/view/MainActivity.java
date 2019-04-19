@@ -1,23 +1,32 @@
-package me.djc.gruduatedaily;
+package me.djc.gruduatedaily.view;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import me.djc.base.activity.BaseActivity;
 import me.djc.base.fragment.IFragmentInteractionListener;
+import me.djc.gruduatedaily.R;
+import me.djc.gruduatedaily.view.analysis.AnalysisFragment;
+import me.djc.gruduatedaily.view.ding.DingFragment;
+import me.djc.gruduatedaily.view.plan.PlanFragment;
 
 /**
  * 首页Activity
  */
 public class MainActivity extends BaseActivity implements IFragmentInteractionListener {
+    private static final String TAG = "MainActivity";
     private BottomNavigationView mNavView;
     private ConstraintLayout mContainer;
-    private Fragment mFlContent;
+    private Fragment mDingFragment, mPlanFragment, mAnalysisFragment;
+    private Fragment currentFragment;
+    private FragmentManager mManager;
 
     @Override
     protected void onIntentData(Intent intent) {
@@ -26,7 +35,15 @@ public class MainActivity extends BaseActivity implements IFragmentInteractionLi
 
     @Override
     protected void onDataInit() {
+        mManager = getSupportFragmentManager();
+        initFragments();
+    }
 
+    private void initFragments() {
+        currentFragment = new Fragment();
+        mDingFragment = DingFragment.newInstance();
+        mPlanFragment = PlanFragment.newInstance();
+        mAnalysisFragment = AnalysisFragment.newInstance();
     }
 
     @Override
@@ -45,6 +62,22 @@ public class MainActivity extends BaseActivity implements IFragmentInteractionLi
         mNavView.setSelectedItemId(R.id.navigation_ding);
     }
 
+    private void showFragment(Fragment eFragment) {
+        Log.i(TAG, "will showFragment: " + eFragment);
+        if (currentFragment != eFragment) {
+            FragmentTransaction transaction = mManager.beginTransaction();
+            transaction.hide(currentFragment);
+            Log.i(TAG, "hideFragment: " + currentFragment);
+            currentFragment = eFragment;
+            if (!eFragment.isAdded()) {
+                transaction.add(R.id.fragment, eFragment).show(eFragment).commit();
+                Log.i(TAG, "showFragment: " + eFragment);
+            } else {
+                transaction.show(eFragment).commit();
+            }
+        }
+    }
+
     /**
      * 切换Fragment
      *
@@ -53,13 +86,14 @@ public class MainActivity extends BaseActivity implements IFragmentInteractionLi
     private void changeContentFragment(int itemId) {
         switch (itemId) {
             case R.id.navigation_ding:
-                Navigation.findNavController(this, R.id.fragment).navigate(R.id.dingFragment);
+                showFragment(mDingFragment);
                 break;
             case R.id.navigation_plane:
-                Navigation.findNavController(this, R.id.fragment).navigate(R.id.planeFragment);
+
+                showFragment(mPlanFragment);
                 break;
             case R.id.navigation_static:
-                Navigation.findNavController(this, R.id.fragment).navigate(R.id.staticFragment);
+                showFragment(mAnalysisFragment);
                 break;
             default:
                 break;
@@ -67,7 +101,7 @@ public class MainActivity extends BaseActivity implements IFragmentInteractionLi
     }
 
     @Override
-    protected int getContentlayoutRes() {
+    protected int getContentLayoutRes() {
         return R.layout.activity_main;
     }
 
