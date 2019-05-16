@@ -44,6 +44,7 @@ public class FragmentsPager extends LinearLayoutCompat {
     private List<String> mTabs;
     private View mTitleView;
     private int mTitleRes;
+
     public FragmentsPager(Context context) {
         this(context, null);
     }
@@ -108,6 +109,7 @@ public class FragmentsPager extends LinearLayoutCompat {
 
         mTabFragments = findViewById(R.id.tab_fragments);
         mViewPager = findViewById(R.id.view_pager);
+        mViewPager.setOffscreenPageLimit(3);
         mTabFragments.setupWithViewPager(mViewPager);
         patchData();
     }
@@ -117,7 +119,7 @@ public class FragmentsPager extends LinearLayoutCompat {
             return;
         }
         if (null == mFragmentsAdapter) {
-            mFragmentsAdapter = new FragmentsAdapter(mFragmentManager, mFragments,mTabs);
+            mFragmentsAdapter = new FragmentsAdapter(mFragmentManager, mFragments, mTabs);
             mViewPager.setAdapter(mFragmentsAdapter);
         }
         if (null != mFragmentMap) {

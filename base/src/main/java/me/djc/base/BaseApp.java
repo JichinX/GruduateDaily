@@ -19,5 +19,4 @@ public class BaseApp extends Application {
         super.onCreate();
         mExecutors = new AppExecutors();
     }
-
 }

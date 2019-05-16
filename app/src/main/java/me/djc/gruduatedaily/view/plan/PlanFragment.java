@@ -11,6 +11,10 @@ import java.util.Map;
 
 /**
  *
+ * Calender 相关APi
+ * 
+ *public void scrollToPre();//滚动到上一个月
+ * public void scrollToNext();//滚动到下一个月
  */
 public class PlanFragment extends SimpleFragment {
     private FragmentsPager mPager;
@@ -19,9 +23,9 @@ public class PlanFragment extends SimpleFragment {
 
     public PlanFragment() {
         mFragmentMap = new LinkedHashMap<>();
-        mFragmentMap.put("清单", OrderListFragment.newInstance());
-        mFragmentMap.put("今天", PlanListFragment.newInstance());
-        mFragmentMap.put("明天", PlanListFragment.newInstance());
+        mFragmentMap.put("清单", OrderFragment.newInstance());
+        mFragmentMap.put("今天", PlanListFragment.newInstance(PlanListFragment.DAY_TYPE_CUTTENT));
+        mFragmentMap.put("明天", PlanListFragment.newInstance(PlanListFragment.DAY_TYPE_NEXT));
     }
 
     public static PlanFragment newInstance() {

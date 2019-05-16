@@ -1,5 +1,6 @@
 package me.djc.base.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.LayoutRes;
@@ -42,4 +43,9 @@ public abstract class BaseActivity extends AppCompatActivity implements IView {
      */
     @LayoutRes
     protected abstract int getContentLayoutRes();
+
+
+    protected Context getContext() {
+        return this;
+    }
 }

@@ -1,56 +1,33 @@
 package me.djc.gruduatedaily.bean;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
 /**
- * Des:GruduateDaily - me.djc.gruduatedaily.bean
- *
  * @author xujichang
- * @date 2019-04-18 - 18:12
- * <p>
- * modify:
- */
-@Entity(tableName = "tbl_analysis_data")
+ * @date 2019/05/15
+ **/
 public class AnalysisData {
-    @PrimaryKey(autoGenerate = true)
-    private int id;
-    private String title;
-    private int type;
+    private int mType;
+    private String mTitle;
 
-    public AnalysisData(String eTitle, int eType) {
-        title = eTitle;
-        type = eType;
+    public AnalysisData(String title, int type) {
+        mTitle = title;
+        mType = type;
     }
 
     public int getType() {
-        return type;
+
+        return mType;
     }
 
     public void setType(int eType) {
-        type = eType;
-    }
-
-    public AnalysisData() {
-    }
-
-    public AnalysisData(String eTitle) {
-        title = eTitle;
+        mType = eType;
     }
 
     public String getTitle() {
-        return title;
+
+        return mTitle;
     }
 
     public void setTitle(String eTitle) {
-        title = eTitle;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int eId) {
-        id = eId;
+        mTitle = eTitle;
     }
 }

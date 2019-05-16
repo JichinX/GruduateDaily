@@ -2,20 +2,15 @@ package me.djc.gruduatedaily.room;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
-import androidx.annotation.VisibleForTesting;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.TypeConverters;
-import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import me.djc.base.executors.AppExecutors;
-import me.djc.base.room.converter.DataConverter;
-import me.djc.gruduatedaily.bean.AnalysisData;
-
-import java.util.List;
+import me.djc.gruduatedaily.room.dao.*;
+import me.djc.gruduatedaily.room.entity.*;
 
 /**
  * Des:GruduateDaily - me.djc.base.room
@@ -26,14 +21,22 @@ import java.util.List;
  * <p>
  * modify:
  */
-@Database(entities = {AnalysisData.class}, version = 1, exportSchema = false)
-//@TypeConverters(DataConverter.class)
+@Database(entities = {Ding.class, Label.class, Order.class, Plan.class, User.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;
 
     public static final String DATABASE_NAME = "tbl-basic-db";
 
+    public abstract UserDao mUserDao();
+
+    public abstract DingDao mDingDao();
+
+    public abstract LabelDao mLabelDao();
+
+    public abstract OrderDao mOrderDao();
+
+    public abstract PlanDao mPlanDao();
 
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
 

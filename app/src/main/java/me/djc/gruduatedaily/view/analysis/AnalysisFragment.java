@@ -1,5 +1,6 @@
 package me.djc.gruduatedaily.view.analysis;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,6 +43,13 @@ public class AnalysisFragment extends SimpleFragment {
                 mTvTitle = eView.findViewById(R.id.app_analysis_tv_title);
                 mIvSeeting = eView.findViewById(R.id.app_analysis_iv_seeting);
                 mTvTitle.setText("统计");
+                mIvSeeting.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //标签设置
+                        startActivity(new Intent(getContext(), LabelSettingActivity.class));
+                    }
+                });
             }
         });
         mPager.setFragmentMap(mFragmentMap);

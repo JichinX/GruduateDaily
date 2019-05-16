@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import me.djc.base.fragment.SimpleFragment;
 import me.djc.gruduatedaily.R;
+import me.djc.gruduatedaily.bean.AnalysisData;
 import me.djc.gruduatedaily.view.analysis.adapter.AnalysisItemAdapter;
 import me.djc.gruduatedaily.base.AppConst;
-import me.djc.gruduatedaily.bean.AnalysisData;
 
 import java.util.ArrayList;
 import java.util.List;

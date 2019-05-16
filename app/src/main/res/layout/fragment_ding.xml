@@ -36,14 +36,46 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
             <!--日历-->
-            <me.djc.common.widget.CustomCalendarView
+            <LinearLayout
+                android:id="@+id/ll_date_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                app:layout_constraintTop_toBottomOf="@id/guideline_actionbar">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="2019/05/16" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_arrow_up_24dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_arrow_down_24dp" />
+            </LinearLayout>
+
+            <me.djc.common.widget.calender.CustomCalendarView
                 android:id="@+id/calendar_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/guideline_actionbar"
+                app:layout_constraintTop_toBottomOf="@id/ll_date_info"
+                app:month_view="me.djc.common.widget.calender.SimpleMonthView"
+                app:week_view="me.djc.common.widget.calender.SimpleWeekView"
                 tools:layout_height="200dp">
 
-            </me.djc.common.widget.CustomCalendarView>
+            </me.djc.common.widget.calender.CustomCalendarView>
 
             <!--<me.djc.common.widget.ItemInfoView-->
             <!--android:layout_width="match_parent"-->
@@ -57,7 +89,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:minHeight="200dp"
                 android:orientation="vertical"
                 android:padding="16dp"
                 app:layout_constraintTop_toBottomOf="@id/calendar_view"

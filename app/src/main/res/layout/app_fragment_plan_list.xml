@@ -1,14 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:padding="8dp"
     tools:context=".view.plan.PlanListFragment">
 
-    <me.djc.common.widget.FootAndHeaderRv
+    <ImageView
+        android:id="@+id/iv_plans_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:src="@drawable/app_ic_edit_black_24dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+
         android:id="@+id/app_plan_rv_plan_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/ll_mark"
+        app:layout_constraintTop_toBottomOf="@id/iv_plans_edit">
 
-    </me.djc.common.widget.FootAndHeaderRv>
-</FrameLayout>
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/ll_mark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_edit_border"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/tv_ding">
+
+        <ImageView
+            android:id="@+id/et_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:padding="8dp"
+            android:src="@drawable/ic_camera_24dp" />
+
+        <EditText
+            android:id="@+id/et_mark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="top"
+            android:minLines="4"
+            android:padding="8dp" />
+    </LinearLayout>
+    <!--打卡-->
+    <TextView
+        android:id="@+id/tv_ding"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_btn"
+
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="打卡"
+        android:textColor="#FFFFFF"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintWidth_percent="0.4" />
+</androidx.constraintlayout.widget.ConstraintLayout>

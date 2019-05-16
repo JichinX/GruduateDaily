@@ -12,7 +12,7 @@ import androidx.constraintlayout.widget.Guideline;
 import androidx.recyclerview.widget.RecyclerView;
 import me.djc.common.util.ColorUtils;
 import me.djc.gruduatedaily.R;
-import me.djc.gruduatedaily.bean.Plan;
+import me.djc.gruduatedaily.room.entity.Plan;
 
 import java.util.List;
 

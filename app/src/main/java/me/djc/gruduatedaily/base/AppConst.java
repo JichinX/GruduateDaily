@@ -9,6 +9,14 @@ package me.djc.gruduatedaily.base;
  * modify:
  */
 public class AppConst {
+    public static class OrderType {
+
+        public static final int IMPORTANT = 1;
+        public static final int URGENT = 2;
+        public static final int IMPORTANT_URGENT = 3;
+        public static final int NONE = 4;
+    }
+
     public static final class Analysistype {
         public static final int TAG_DAY = 1;
         public static final int TAG_MOUNTH = 2;
@@ -18,5 +26,7 @@ public class AppConst {
 
     public static final class Value {
         public static final String ANALYSIS_TYPE = "analysis_type";
+        public static final String ORDER_TYPE = "order_type";
+        public static final String DAY_TYPE = "day_type";
     }
 }

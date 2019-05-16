@@ -1,19 +1,13 @@
 package me.djc.gruduatedaily.view.plan.adapter;
 
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import me.djc.common.util.ColorUtils;
 import me.djc.gruduatedaily.R;
-import me.djc.gruduatedaily.bean.Order;
+import me.djc.gruduatedaily.room.entity.Order;
 
 import java.util.List;
 
@@ -30,7 +24,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.Holder> {
 
     public OrderAdapter(List<Order> eOrders) {
         mOrders = eOrders;
-
     }
 
     @NonNull
@@ -51,19 +44,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.Holder> {
     }
 
     class Holder extends RecyclerView.ViewHolder {
-        private EditText mContent;
-        private ImageView mEdit;
+        private TextView mContent;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
-            mContent = itemView.findViewById(R.id.app_plan_et_order_content);
-            mEdit = itemView.findViewById(R.id.app_plan_iv_order_edit);
+            mContent = itemView.findViewById(R.id.tv_order_content);
         }
 
         public void bindData(Order eOrder) {
-            int color = ColorUtils.createRandomColor();
-            ColorDrawable vColorDrawable = new ColorDrawable(color);
-            mContent.setBackground(vColorDrawable);
+            mContent.setText(eOrder.getContent());
         }
     }
 }
