@@ -3,6 +3,7 @@ package me.djc.base.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,5 +48,9 @@ public abstract class BaseActivity extends AppCompatActivity implements IView {
 
     protected Context getContext() {
         return this;
+    }
+
+    protected void showToast(String msg) {
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 }

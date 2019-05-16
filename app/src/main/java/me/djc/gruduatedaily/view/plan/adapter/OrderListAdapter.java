@@ -61,6 +61,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Hold
         public void bindData(Order eOrder) {
             int position = getAdapterPosition();
             mTvContent.setText(eOrder.getContent());
+            mTvOrder.setText(String.valueOf(position + 1));
             if (position == 0) {
                 mIvOrderUp.setVisibility(View.INVISIBLE);
                 mIvOrderUp.setEnabled(false);
@@ -68,13 +69,15 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Hold
                 mIvOrderUp.setVisibility(View.VISIBLE);
                 mIvOrderUp.setEnabled(true);
             }
-            if (position == getItemCount()) {
+            if (position == getItemCount() - 1) {
                 mIvOrderDown.setVisibility(View.INVISIBLE);
                 mIvOrderDown.setEnabled(false);
             } else {
                 mIvOrderDown.setVisibility(View.VISIBLE);
                 mIvOrderDown.setEnabled(true);
             }
+
+
             mIvOrderDown.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

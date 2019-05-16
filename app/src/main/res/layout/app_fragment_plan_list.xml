@@ -61,7 +61,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_btn"
-
         android:gravity="center"
         android:padding="8dp"
         android:text="打卡"

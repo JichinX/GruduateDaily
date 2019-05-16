@@ -1,18 +1,22 @@
 package me.djc.gruduatedaily.view.plan;
 
 import android.content.Intent;
+import android.view.View;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.afollestad.materialdialogs.MaterialDialog;
 import me.djc.base.activity.BaseActivity;
 import me.djc.gruduatedaily.R;
 import me.djc.gruduatedaily.base.AppConst;
+import me.djc.gruduatedaily.room.entity.Label;
 import me.djc.gruduatedaily.room.entity.Plan;
 import me.djc.gruduatedaily.view.plan.adapter.PlanEditAdapter;
 import org.jaaksi.pickerview.picker.TimePicker;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.jaaksi.pickerview.picker.TimePicker.TYPE_TIME;
@@ -23,6 +27,7 @@ public class PlanEditActivity extends BaseActivity {
     private List<Plan> mPlans;
     private int dayType = PlanListFragment.DAY_TYPE_CUTTENT;
     private RecyclerView mRvPlans;
+    private List<Label> mLabels;
 
     @Override
     protected void onIntentData(Intent intent) {
@@ -32,6 +37,7 @@ public class PlanEditActivity extends BaseActivity {
     @Override
     protected void onDataInit() {
         mPlans = new ArrayList<>();
+        mLabels = new ArrayList<>();
         mEditAdapter = new PlanEditAdapter(mPlans);
 
         mViewModel = ViewModelProviders.of(this).get(PlanViewModel.class);
@@ -42,6 +48,14 @@ public class PlanEditActivity extends BaseActivity {
                 mPlans.addAll(ePlans);
                 mPlans.add(new Plan());
                 mEditAdapter.notifyDataSetChanged();
+            }
+        });
+        mViewModel.getLabels().observe(this, new Observer<List<Label>>() {
+            @Override
+            public void onChanged(List<Label> eLabels) {
+                //刷新标签列表
+                mLabels.clear();
+                mLabels.addAll(eLabels);
             }
         });
     }
@@ -67,34 +81,55 @@ public class PlanEditActivity extends BaseActivity {
                     return;
                 }
                 //添加标签
-                showLabelSelect();
+                showLabelSelect(ePlan);
                 //设置标签为最后一步
-
             }
 
             @Override
             public void onTimeStart(Plan ePlan) {
                 //设置开始时间
-                showTimeSelect();
+                showTimeSelect(ePlan, true);
             }
 
             @Override
             public void onTimeEnd(Plan ePlan) {
                 //设置结束时间
-                showTimeSelect();
+                showTimeSelect(ePlan, false);
             }
         });
     }
 
-    private void showTimeSelect() {
+    private void showTimeSelect(Plan ePlan, boolean isStart) {
         TimePicker mTimePicker = new TimePicker
-                .Builder(getContext(), TYPE_TIME, null)
+                .Builder(getContext(), TYPE_TIME, new TimePicker.OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(TimePicker picker, Date date) {
+                if (isStart) {
+                    ePlan.setTimeStart(date.getTime());
+                } else {
+                    ePlan.setTimeEnd(date.getTime());
+                }
+                mEditAdapter.notifyDataSetChanged();
+            }
+        })
                 .create();
         mTimePicker.show();
     }
 
-    private void showLabelSelect() {
-
+    private void showLabelSelect(Plan ePlan) {
+        MaterialDialog.Builder vBuilder = new MaterialDialog.Builder(getContext());
+        vBuilder.title("选择标签")
+                .items(mLabels)
+                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                        ePlan.setLabelId(mLabels.get(which).getId());
+                        ePlan.setLabel(mLabels.get(which).getContent());
+                        mViewModel.addPlans(ePlan,dayType);
+                        return false;
+                    }
+                })
+                .show();
     }
 
     @Override

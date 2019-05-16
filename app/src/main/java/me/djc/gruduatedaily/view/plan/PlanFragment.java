@@ -11,10 +11,6 @@ import java.util.Map;
 
 /**
  *
- * Calender 相关APi
- * 
- *public void scrollToPre();//滚动到上一个月
- * public void scrollToNext();//滚动到下一个月
  */
 public class PlanFragment extends SimpleFragment {
     private FragmentsPager mPager;

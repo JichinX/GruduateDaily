@@ -8,11 +8,21 @@ import androidx.room.PrimaryKey;
  */
 @Entity(tableName = "tbl_plan")
 public class Plan {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private long id;
     private long timeStart;
     private long timeEnd;
-    private long label;
+    private long labelId;
+    private String label;
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String eLabel) {
+        label = eLabel;
+    }
+
     private String date;
 
     public String getDate() {
@@ -47,11 +57,11 @@ public class Plan {
         timeEnd = eTimeEnd;
     }
 
-    public long getLabel() {
-        return label;
+    public long getLabelId() {
+        return labelId;
     }
 
-    public void setLabel(long eLabel) {
-        label = eLabel;
+    public void setLabelId(long eLabelId) {
+        labelId = eLabelId;
     }
 }

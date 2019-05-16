@@ -2,6 +2,7 @@ package me.djc.base.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 /**
  * Des:GruduateDaily - me.djc.base.fragment
@@ -23,4 +24,9 @@ public abstract class SimpleFragment extends BaseFragment {
     public void refresh() {
 
     }
+
+    protected void showToast(String msg) {
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
 }

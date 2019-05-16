@@ -1,14 +1,20 @@
 package me.djc.gruduatedaily.view;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Guideline;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import me.djc.base.activity.BaseActivity;
 import me.djc.gruduatedaily.R;
+import me.djc.gruduatedaily.room.entity.User;
+import me.djc.gruduatedaily.viewmodel.UserViewModel;
+import org.w3c.dom.Text;
 
 public class LoginActivity extends BaseActivity {
 
@@ -29,6 +35,10 @@ public class LoginActivity extends BaseActivity {
     private TextView mTvLabelRegister;
     private ConstraintLayout mClLogin;
     private ConstraintLayout mClRegister;
+    private UserViewModel mViewModel;
+    private EditText mEtRegisterName;
+    private EditText mEtRegisterPwd;
+    private EditText mEtRegisterPhone;
 
     @Override
     protected void onIntentData(Intent intent) {
@@ -37,7 +47,32 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void onDataInit() {
-
+        mViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        mViewModel.subscribeRegister().observe(this, new Observer<Long>() {
+            @Override
+            public void onChanged(Long eLong) {
+                if (eLong > 0L) {
+                    //注册成功
+                    showToast("注册成功");
+                    mTvLabelLogin.performLongClick();
+                } else {
+                    showToast("注册失败");
+                }
+            }
+        });
+        mViewModel.subscribeLogin().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean eBoolean) {
+                //登录
+                if (eBoolean) {
+                    //登录成功
+                    startActivity(new Intent(getContext(), MainActivity.class));
+                    finish();
+                } else {
+                    showToast("登录失败");
+                }
+            }
+        });
     }
 
     @Override
@@ -59,6 +94,9 @@ public class LoginActivity extends BaseActivity {
         mTvLabelRegister = findViewById(R.id.tv_label_register);
         mClLogin = findViewById(R.id.cl_login);
         mClRegister = findViewById(R.id.cl_register);
+        mEtRegisterName = findViewById(R.id.et_register_name);
+        mEtRegisterPwd = findViewById(R.id.et_register_pwd);
+        mEtRegisterPhone = findViewById(R.id.et_register_phone);
 
         mTvLabelLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,11 +119,61 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //登录
-                startActivity(new Intent(getContext(), MainActivity.class));
-                finish();
+                String account = mEtName.getText().toString();
+                String pwd = mEtPwd.getText().toString();
+                if (TextUtils.isEmpty(account) || TextUtils.isEmpty(pwd)) {
+                    return;
+                }
+                tryLogin(account, pwd);
+
+            }
+        });
+        mTvRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //注册
+                User vUser = collectUserInfo();
+                if (null != vUser) {
+                    tryRegister(vUser);
+                }
             }
         });
     }
+
+    /**
+     * 注册
+     *
+     * @param eUser
+     */
+    private void tryRegister(User eUser) {
+        mViewModel.registerUser(eUser);
+    }
+
+    private void tryLogin(String account, String pwd) {
+        mViewModel.login(account, pwd);
+
+    }
+
+    /**
+     * s搜集用户信息
+     *
+     * @return
+     */
+    private User collectUserInfo() {
+        String name = mEtRegisterName.getText().toString();
+        String pwd = mEtRegisterPwd.getText().toString();
+        String phone = mEtRegisterPhone.getText().toString();
+        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(phone) || TextUtils.isEmpty(pwd)) {
+            showToast("关键信息不能为空");
+            return null;
+        }
+        User vUser = new User();
+        vUser.setName(name);
+        vUser.setPhone(phone);
+        vUser.setPwd(pwd);
+        return vUser;
+    }
+
 
     @Override
     protected int getContentLayoutRes() {

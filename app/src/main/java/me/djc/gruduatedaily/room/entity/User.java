@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "tbl_user")
 public class User {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private long id;
     private String name;
     private String pwd;

@@ -1,5 +1,6 @@
 package me.djc.gruduatedaily.room.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -64,5 +65,11 @@ public class Label {
 
     public void setContent(String eContent) {
         content = eContent;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return content;
     }
 }

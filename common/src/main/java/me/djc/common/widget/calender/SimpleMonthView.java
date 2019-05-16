@@ -3,6 +3,7 @@ package me.djc.common.widget.calender;
 import android.content.Context;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.View;
 import com.haibin.calendarview.Calendar;
@@ -20,7 +21,7 @@ public class SimpleMonthView extends MonthView {
     public SimpleMonthView(Context context) {
         super(context);
         //兼容硬件加速无效的代码
-        setLayerType(View.LAYER_TYPE_SOFTWARE,mSelectedPaint);
+        setLayerType(View.LAYER_TYPE_SOFTWARE, mSelectedPaint);
         //4.0以上硬件加速会导致无效
         mSelectedPaint.setMaskFilter(new BlurMaskFilter(25, BlurMaskFilter.Blur.SOLID));
     }
@@ -28,7 +29,7 @@ public class SimpleMonthView extends MonthView {
     @Override
     protected void onPreviewHook() {
         mRadius = Math.min(mItemWidth, mItemHeight) / 5 * 2;
-        mSchemePaint.setStyle(Paint.Style.STROKE);
+        mSchemePaint.setStyle(Paint.Style.FILL);
     }
 
     @Override
@@ -46,6 +47,7 @@ public class SimpleMonthView extends MonthView {
 
     @Override
     protected void onDrawScheme(Canvas canvas, Calendar calendar, int x, int y) {
+        mSchemePaint.setColor(calendar.getSchemeColor());
         int cx = x + mItemWidth / 2;
         int cy = y + mItemHeight / 2;
         canvas.drawCircle(cx, cy, mRadius, mSchemePaint);

@@ -1,18 +1,17 @@
 package me.djc.gruduatedaily.view.plan.adapter;
 
-import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Guideline;
 import androidx.recyclerview.widget.RecyclerView;
-import me.djc.common.util.ColorUtils;
 import me.djc.gruduatedaily.R;
 import me.djc.gruduatedaily.room.entity.Plan;
+import me.xujichang.xbase.baseutils.strings.StringFormatUtil;
 
 import java.util.List;
 
@@ -55,18 +54,20 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.Holder> {
         private TextView mTvContent;
         private TextView mTvTime;
         private Guideline mGuideCenter;
-        private ImageView mIvOperate;
         private View mCenterLine;
         private ConstraintLayout mClContainer;
+        private LinearLayout mLlContent;
+        private LinearLayout mLlTime;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
             mTvContent = itemView.findViewById(R.id.app_plane_item_tv_content);
             mTvTime = itemView.findViewById(R.id.app_plane_item_tv_time);
             mGuideCenter = itemView.findViewById(R.id.guide_center);
-            mIvOperate = itemView.findViewById(R.id.app_plane_item_iv_operate);
             mCenterLine = itemView.findViewById(R.id.app_plan_item_center_line);
             mClContainer = itemView.findViewById(R.id.cl_container);
+            mLlContent = itemView.findViewById(R.id.ll_content);
+            mLlTime = itemView.findViewById(R.id.ll_time);
         }
 
         public void bindData(Plan ePlan) {
@@ -78,14 +79,13 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.Holder> {
                 //奇数
                 forwardLayout();
             }
-            mTvContent.setText(String.format("%s \n %s", "#标题", "笔记内容"));
-            mTvTime.setText(String.format("%s \n %s", "13:30", "2019/04/12"));
-            int color = ColorUtils.createRandomColor();
-            mIvOperate.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+            mTvContent.setText(ePlan.getLabel());
+            mTvTime.setText(String.format("%s - %s", StringFormatUtil.formatTime(ePlan.getTimeStart(), "HH:mm"), StringFormatUtil.formatTime(ePlan.getTimeEnd(), "HH:mm")));
 //            mIvOperate.setColorFilter(ColorUtils.paletteIvColor(color));
         }
 
         private void forwardLayout() {
+
         }
 
         private void reverseLayout() {

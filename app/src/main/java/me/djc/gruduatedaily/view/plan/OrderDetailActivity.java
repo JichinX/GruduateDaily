@@ -5,6 +5,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -53,12 +54,32 @@ public class OrderDetailActivity extends BaseActivity {
 
         mRvOrders.setLayoutManager(new LinearLayoutManager(getContext()));
         mRvOrders.setAdapter(mOrderListAdapter);
+        mRvOrders.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         mFabOrderAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //添加清单
                 showOrderAddDialog();
+            }
+        });
+        mOrderListAdapter.setOrderEditListener(new OrderListAdapter.OnOrderEditListener() {
+            @Override
+            public void onSlideUp(Order eOrder, int ePosition) {
+                //TODO 上移
+
+            }
+
+            @Override
+            public void onSlideDown(Order eOrder, int ePosition) {
+                //TODO 下滑
+
+            }
+
+            @Override
+            public void onEdit(Order eOrder) {
+                //TODO 编辑
+
             }
         });
     }

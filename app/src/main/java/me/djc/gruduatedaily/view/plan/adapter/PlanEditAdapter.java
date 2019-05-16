@@ -68,6 +68,7 @@ public class PlanEditAdapter extends RecyclerView.Adapter<PlanEditAdapter.Holder
                 mIvPlanAdd.setVisibility(View.GONE);
                 mIvPlanDelete.setVisibility(View.VISIBLE);
 
+                mTvPlanLabel.setText(ePlan.getLabel());
             }
             mTvTimeStart.setText(StringFormatUtil.formatTime(ePlan.getTimeStart(), "HH:mm:ss"));
             mTvTimeEnd.setText(StringFormatUtil.formatTime(ePlan.getTimeEnd(), "HH:mm:ss"));

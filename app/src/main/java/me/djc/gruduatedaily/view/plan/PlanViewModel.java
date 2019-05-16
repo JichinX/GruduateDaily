@@ -8,8 +8,12 @@ import androidx.lifecycle.MutableLiveData;
 import me.djc.base.executors.AppExecutors;
 import me.djc.gruduatedaily.App;
 import me.djc.gruduatedaily.base.AppConst;
+import me.djc.gruduatedaily.room.dao.DingDao;
+import me.djc.gruduatedaily.room.dao.LabelDao;
 import me.djc.gruduatedaily.room.dao.OrderDao;
 import me.djc.gruduatedaily.room.dao.PlanDao;
+import me.djc.gruduatedaily.room.entity.Ding;
+import me.djc.gruduatedaily.room.entity.Label;
 import me.djc.gruduatedaily.room.entity.Order;
 import me.djc.gruduatedaily.room.entity.Plan;
 import me.xujichang.xbase.baseutils.strings.StringFormatUtil;
@@ -29,6 +33,8 @@ public class PlanViewModel extends AndroidViewModel {
     private PlanDao mPlanDao;
     private OrderDao mOrderDao;
     private AppExecutors mExecutors;
+    private LabelDao mLabelDao;
+    private DingDao mDingDao;
 
     public PlanViewModel(@NonNull Application application) {
         super(application);
@@ -36,6 +42,8 @@ public class PlanViewModel extends AndroidViewModel {
         mPlansLiveData = new MutableLiveData<>();
         mPlanDao = ((App) application).getDatabase().mPlanDao();
         mOrderDao = ((App) application).getDatabase().mOrderDao();
+        mLabelDao = ((App) application).getDatabase().mLabelDao();
+        mDingDao = ((App) application).getDatabase().mDingDao();
     }
 
     public LiveData<List<Plan>> getPlans(int eDayType) {
@@ -107,5 +115,51 @@ public class PlanViewModel extends AndroidViewModel {
                 mPlanDao.deletePlan(ePlan);
             }
         });
+    }
+
+    public LiveData<List<Label>> getLabels() {
+        return mLabelDao.queryAllLabels();
+    }
+
+    /**
+     * 添加计划
+     *
+     * @param ePlan
+     * @param eDayType
+     */
+    public void addPlans(Plan ePlan, int eDayType) {
+        long current = System.currentTimeMillis();
+        long nextDay = 0;
+        if (eDayType == PlanListFragment.DAY_TYPE_NEXT) {
+            nextDay = current + 24 * 60 * 60 * 1000;
+        }
+        String date = StringFormatUtil.formatTime(current + nextDay, "yyyy-MM-dd");
+        ePlan.setDate(date);
+
+        mExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mPlanDao.addPlan(ePlan);
+            }
+        });
+    }
+
+    public void addDing(Ding eDing) {
+        eDing.setDateTime(System.currentTimeMillis());
+        mExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDingDao.addDing(eDing);
+            }
+        });
+    }
+
+    public LiveData<Ding> getDingInfo() {
+        long current = System.currentTimeMillis();
+        //转换为天数的MS
+        long moreMs = current % (24 * 60 * 60 * 1000);
+        long startMs = current - moreMs;
+        long endMs = startMs + 24 * 60 * 60 * 1000;
+        return mDingDao.queryDingInfo(startMs, endMs);
     }
 }

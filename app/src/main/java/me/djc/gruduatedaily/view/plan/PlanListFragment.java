@@ -3,6 +3,7 @@ package me.djc.gruduatedaily.view.plan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import me.djc.base.fragment.SimpleFragment;
 import me.djc.gruduatedaily.R;
 import me.djc.gruduatedaily.base.AppConst;
+import me.djc.gruduatedaily.room.entity.Ding;
 import me.djc.gruduatedaily.room.entity.Plan;
 import me.djc.gruduatedaily.view.plan.adapter.PlanAdapter;
 
@@ -79,6 +81,17 @@ public class PlanListFragment extends SimpleFragment {
                 mPlanAdapter.notifyDataSetChanged();
             }
         });
+        if (dayType == DAY_TYPE_CUTTENT) {
+            mViewModel.getDingInfo().observe(getLifecycleOwner(), new Observer<Ding>() {
+                @Override
+                public void onChanged(Ding eDing) {
+                    if (null != eDing) {
+                        disableEdit();
+                        patchDingInfo(eDing);
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -106,8 +119,44 @@ public class PlanListFragment extends SimpleFragment {
         if (dayType == DAY_TYPE_CUTTENT) {
             mLlMark.setVisibility(View.VISIBLE);
             mTvDing.setVisibility(View.VISIBLE);
+            mTvDing.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //打卡
+                    String mark = mEtMark.getText().toString();
+                    if (TextUtils.isEmpty(mark)) {
+                        showToast("还要输入 今天的一点点感想～");
+                        return;
+                    }
+                    Ding vDing = new Ding();
+                    vDing.setMark(mark);
+                    mViewModel.addDing(vDing);
+                }
+            });
+
+
         }
+
         return inflate;
+    }
+
+    /**
+     * 展示打卡信息
+     *
+     * @param eDing
+     */
+    private void patchDingInfo(Ding eDing) {
+        mEtMark.setText(eDing.getMark());
+    }
+
+    /**
+     * 已经有打卡信息，禁止编辑
+     */
+    private void disableEdit() {
+        mIvPlansEdit.setVisibility(View.GONE);
+        mTvDing.setVisibility(View.GONE);
+        mEtCamera.setVisibility(View.GONE);
+        mEtMark.setEnabled(false);
     }
 
     @Override

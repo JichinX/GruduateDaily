@@ -1,9 +1,7 @@
 package me.djc.gruduatedaily.room.dao;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Query;
+import androidx.room.*;
 import me.djc.gruduatedaily.room.entity.Plan;
 
 import java.util.List;
@@ -16,4 +14,7 @@ public interface PlanDao {
 
     @Delete
     void deletePlan(Plan ePlan);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void addPlan(Plan ePlan);
 }
