@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import me.djc.base.executors.AppExecutors;
+import me.djc.common.util.CalenderUtil;
 import me.djc.gruduatedaily.App;
 import me.djc.gruduatedaily.base.AppConst;
 import me.djc.gruduatedaily.room.dao.DingDao;
@@ -145,7 +146,9 @@ public class PlanViewModel extends AndroidViewModel {
     }
 
     public void addDing(Ding eDing) {
-        eDing.setDateTime(System.currentTimeMillis());
+        long current = System.currentTimeMillis();
+        eDing.setDateTime(current);
+        eDing.setDayMs(CalenderUtil.getMidDayMs(current));
         mExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {

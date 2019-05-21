@@ -18,14 +18,35 @@ public interface DingDao {
      * @param eRealMs
      * @return
      */
-    @Query("SELECT * FROM tbl_ding WHERE dateTime >= :eStartMs AND dateTime <= :eRealMs")
+    @Query("SELECT * FROM tbl_ding WHERE dayMs >= :eStartMs AND dayMs <= :eRealMs")
     Ding selectDingInfo(long eStartMs, long eRealMs);
 
+    /**
+     * 添加打卡信息
+     *
+     * @param eDing
+     * @return
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long addDing(Ding eDing);
 
-    @Query("SELECT * FROM tbl_ding WHERE dateTime >= :eStartMs AND dateTime <= :eEndMs")
+    /**
+     * 查询打卡信息
+     *
+     * @param eStartMs
+     * @param eEndMs
+     * @return
+     */
+    @Query("SELECT * FROM tbl_ding WHERE dayMs >= :eStartMs AND dayMs <= :eEndMs")
     LiveData<Ding> queryDingInfo(long eStartMs, long eEndMs);
-    @Query("SELECT * FROM tbl_ding WHERE dateTime >= :eStartMs AND dateTime <= :eEndMs ")
-    List<Ding> queryMontsDings(long eStartMs, long eEndMs);
+
+    /**
+     * 查询月份内的打卡信息
+     *
+     * @param eStartMs
+     * @param eEndMs
+     * @return
+     */
+    @Query("SELECT * FROM tbl_ding WHERE dayMs >= :eStartMs AND dayMs <= :eEndMs ")
+    List<Ding> queryMonthDings(long eStartMs, long eEndMs);
 }

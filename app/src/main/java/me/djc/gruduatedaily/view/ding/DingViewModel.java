@@ -3,6 +3,7 @@ package me.djc.gruduatedaily.view.ding;
 import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
+import com.haibin.calendarview.Calendar;
 import me.djc.base.executors.AppExecutors;
 import me.djc.base.viewmodel.BaseViewModel;
 import me.djc.common.util.CalenderUtil;
@@ -82,7 +83,22 @@ public class DingViewModel extends BaseViewModel {
         mExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                mDingsLiveData.postValue(mDingDao.queryMontsDings(startMs, endMs));
+                mDingsLiveData.postValue(mDingDao.queryMonthDings(startMs, endMs));
+            }
+        });
+    }
+
+    /**
+     * @param eDing
+     */
+    public void addDingInfo(Ding eDing, Calendar eCalendar) {
+        long current = System.currentTimeMillis();
+        eDing.setPatchTime(current);
+        eDing.setDayMs(CalenderUtil.getMidDayMs(eCalendar.getTimeInMillis()));
+        mExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDingDao.addDing(eDing);
             }
         });
     }

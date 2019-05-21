@@ -91,26 +91,65 @@
                 android:id="@+id/day_info_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_edit_border"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="16dp"
-                app:layout_constraintTop_toBottomOf="@id/custom_calendar_view"
-                tools:layout_height="100dp">
+                android:paddingLeft="16dp"
+                android:paddingTop="16dp"
+                android:paddingRight="16dp"
+                app:layout_constraintTop_toBottomOf="@id/custom_calendar_view">
+
 
                 <TextView
+                    android:id="@+id/tv_day_word_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="1，每日一句哲理的话" />
+                    android:padding="8dp"
+                    android:text="这世界上有一个人是永远等着你的，不管是什么时候，不管在什么地方，反正你知道，总有这么个人。" />
 
                 <TextView
+                    android:id="@+id/tv_day_word_from"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="2，查看/编辑当天计划" />
-
+                    android:gravity="right"
+                    android:padding="8dp"
+                    android:text="-张爱玲" />
+                <!--打卡信息-->
                 <TextView
+                    android:id="@+id/tv_ding_mark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="3，补卡" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_check_plan"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_btn"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="查看当天计划"
+                        android:textColor="#FFFFFF" />
+
+                    <TextView
+                        android:id="@+id/tv_add_ding"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_btn"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="补卡"
+                        android:textColor="#FFFFFF" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -118,28 +157,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="@dimen/activity_horizontal_margin"
                 app:layout_constraintTop_toBottomOf="@id/day_info_view">
 
                 <TextView
+                    android:id="@+id/tv_sum_ding"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:padding="8dp"
                     android:text="打卡: XX天" />
 
                 <TextView
+                    android:id="@+id/tv_sum_ding_add"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="补卡: XX天" />
+                    android:padding="8dp"
+                    android:text="补卡: XX天"
+                    android:visibility="gone" />
 
                 <TextView
+                    android:id="@+id/tv_ding_loss"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:padding="8dp"
                     android:text="缺卡: XX天" />
             </LinearLayout>
 

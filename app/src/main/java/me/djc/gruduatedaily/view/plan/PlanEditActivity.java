@@ -2,10 +2,12 @@ package me.djc.gruduatedaily.view.plan;
 
 import android.content.Intent;
 import android.view.View;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import me.djc.base.activity.BaseActivity;
 import me.djc.gruduatedaily.R;
@@ -123,12 +125,45 @@ public class PlanEditActivity extends BaseActivity {
                 .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                        if (which == -1) {
+                            return false;
+                        }
                         ePlan.setLabelId(mLabels.get(which).getId());
                         ePlan.setLabel(mLabels.get(which).getContent());
-                        mViewModel.addPlans(ePlan,dayType);
+                        mViewModel.addPlans(ePlan, dayType);
                         return false;
                     }
                 })
+                .positiveText("确定")
+                .neutralText("自定义")
+                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        //自定义文本
+                        showCustomLabel(ePlan);
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    /**
+     * 显示自定义文本
+     *
+     * @param ePlan
+     */
+    private void showCustomLabel(Plan ePlan) {
+        MaterialDialog.Builder vBuilder = new MaterialDialog.Builder(getContext());
+        vBuilder.title("输入自定义文本标签")
+                .input("自定义文本标签，不计入统计～", null, false, new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                        ePlan.setLabel(input.toString());
+                        mViewModel.addPlans(ePlan, dayType);
+                        dialog.dismiss();
+                    }
+                })
+                .positiveText("确定")
                 .show();
     }
 
