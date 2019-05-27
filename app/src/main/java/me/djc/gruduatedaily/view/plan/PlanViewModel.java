@@ -165,4 +165,8 @@ public class PlanViewModel extends AndroidViewModel {
         long endMs = startMs + 24 * 60 * 60 * 1000;
         return mDingDao.queryDingInfo(startMs, endMs);
     }
+
+    public LiveData<List<Plan>> getPlansWithDate(String eDate) {
+        return mPlanDao.queryPlans(eDate);
+    }
 }

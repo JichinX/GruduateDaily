@@ -19,6 +19,7 @@
                 android:id="@+id/iv_personal"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:scaleType="center"
                 android:src="@drawable/ic_app_person_avater"
                 app:layout_constraintBottom_toTopOf="@id/guideline_actionbar"
                 app:layout_constraintDimensionRatio="1:1"
@@ -27,7 +28,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="毕设"
                 android:textSize="@dimen/size_title"

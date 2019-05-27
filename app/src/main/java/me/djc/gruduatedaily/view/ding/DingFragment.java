@@ -19,9 +19,12 @@ import me.djc.base.fragment.BaseFragment;
 import me.djc.common.util.CalenderUtil;
 import me.djc.common.widget.calender.CustomCalendarView;
 import me.djc.gruduatedaily.R;
+import me.djc.gruduatedaily.base.AppConst;
 import me.djc.gruduatedaily.bean.DayWord;
 import me.djc.gruduatedaily.room.entity.Ding;
 import me.djc.gruduatedaily.view.PersonalActivity;
+import me.djc.gruduatedaily.view.plan.DayPlanActivity;
+import me.djc.gruduatedaily.view.plan.PlanListFragment;
 import me.xujichang.xbase.baseutils.strings.StringFormatUtil;
 
 import java.util.*;
@@ -127,7 +130,12 @@ public class DingFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 //查看当天计划
+                Intent vIntent = new Intent(getContext(), DayPlanActivity.class);
+                long current = selectedCalender.getTimeInMillis();
 
+                String date = StringFormatUtil.formatTime(current, "yyyy-MM-dd");
+                vIntent.putExtra(AppConst.Value.DAY_TIME_MS, date);
+                startActivity(vIntent);
             }
         });
         mTvAddDing.setOnClickListener(new View.OnClickListener() {

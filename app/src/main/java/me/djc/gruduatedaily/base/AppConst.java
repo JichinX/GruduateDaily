@@ -28,5 +28,6 @@ public class AppConst {
         public static final String ANALYSIS_TYPE = "analysis_type";
         public static final String ORDER_TYPE = "order_type";
         public static final String DAY_TYPE = "day_type";
+        public static final String DAY_TIME_MS = "day_time_ms";
     }
 }
