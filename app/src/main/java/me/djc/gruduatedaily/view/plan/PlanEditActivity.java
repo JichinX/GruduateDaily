@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import me.djc.base.activity.BaseActivity;
+import me.djc.common.util.CalenderUtil;
 import me.djc.gruduatedaily.R;
 import me.djc.gruduatedaily.base.AppConst;
 import me.djc.gruduatedaily.room.entity.Label;
@@ -21,19 +22,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static me.djc.gruduatedaily.view.plan.PlanListFragment.DAY_TYPE_CUTTENT;
 import static org.jaaksi.pickerview.picker.TimePicker.TYPE_TIME;
 
 public class PlanEditActivity extends BaseActivity {
     private PlanEditAdapter mEditAdapter;
     private PlanViewModel mViewModel;
     private List<Plan> mPlans;
-    private int dayType = PlanListFragment.DAY_TYPE_CUTTENT;
+    private int dayType = DAY_TYPE_CUTTENT;
     private RecyclerView mRvPlans;
     private List<Label> mLabels;
 
+    private long startMs;
+    private long endMs;
+
     @Override
     protected void onIntentData(Intent intent) {
-        dayType = intent.getIntExtra(AppConst.Value.DAY_TYPE, PlanListFragment.DAY_TYPE_CUTTENT);
+        dayType = intent.getIntExtra(AppConst.Value.DAY_TYPE, DAY_TYPE_CUTTENT);
     }
 
     @Override
@@ -60,6 +65,14 @@ public class PlanEditActivity extends BaseActivity {
                 mLabels.addAll(eLabels);
             }
         });
+        if (dayType == DAY_TYPE_CUTTENT) {
+            //当前的计划
+            startMs = System.currentTimeMillis();
+            endMs = CalenderUtil.getDayEndMs();
+        } else {
+            startMs = CalenderUtil.getNextDayStartMs();
+            endMs = CalenderUtil.getNextDayEndMs();
+        }
     }
 
     @Override
@@ -79,7 +92,7 @@ public class PlanEditActivity extends BaseActivity {
             public void onAddLabel(Plan ePlan) {
                 //检查日期
                 if (ePlan.getTimeStart() <= 0L || ePlan.getTimeEnd() <= 0L) {
-
+                    showToast("请先选择开始和结束时间");
                     return;
                 }
                 //添加标签
@@ -102,19 +115,21 @@ public class PlanEditActivity extends BaseActivity {
     }
 
     private void showTimeSelect(Plan ePlan, boolean isStart) {
-        TimePicker mTimePicker = new TimePicker
-                .Builder(getContext(), TYPE_TIME, new TimePicker.OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(TimePicker picker, Date date) {
-                if (isStart) {
-                    ePlan.setTimeStart(date.getTime());
-                } else {
-                    ePlan.setTimeEnd(date.getTime());
-                }
-                mEditAdapter.notifyDataSetChanged();
-            }
-        })
-                .create();
+        TimePicker mTimePicker =
+                new TimePicker
+                        .Builder(getContext(), TYPE_TIME, new TimePicker.OnTimeSelectListener() {
+                    @Override
+                    public void onTimeSelect(TimePicker picker, Date date) {
+                        if (isStart) {
+                            ePlan.setTimeStart(date.getTime());
+                        } else {
+                            ePlan.setTimeEnd(date.getTime());
+                        }
+                        mEditAdapter.notifyDataSetChanged();
+                    }
+                })
+                        .setRangDate(startMs, endMs)
+                        .create();
         mTimePicker.show();
     }
 

@@ -97,4 +97,38 @@ public class CalenderUtil {
     public static long DAYS(int number) {
         return DAY_MS * number;
     }
+
+    public static long getDayEndMs() {
+        long eCurrent = System.currentTimeMillis();
+        Calendar ca = Calendar.getInstance();
+        ca.setTime(new Date(eCurrent));
+        ca.set(Calendar.HOUR_OF_DAY, 23);
+        ca.set(Calendar.MINUTE, 59);
+        ca.set(Calendar.SECOND, 59);
+        ca.set(Calendar.MILLISECOND, 999);
+        return ca.getTimeInMillis();
+    }
+
+    public static long getNextDayStartMs() {
+        long current = System.currentTimeMillis();
+        Calendar ca = Calendar.getInstance();
+        ca.setTime(new Date(current));
+        ca.add(Calendar.DAY_OF_MONTH, 1);
+        ca.set(Calendar.HOUR_OF_DAY, 0);
+        ca.clear(Calendar.MINUTE);
+        ca.clear(Calendar.SECOND);
+        ca.clear(Calendar.MILLISECOND);
+        return ca.getTimeInMillis();
+    }
+
+    public static long getNextDayEndMs() {
+        long current = System.currentTimeMillis();
+        Calendar ca = Calendar.getInstance();
+        ca.setTime(new Date(current));
+        ca.set(Calendar.HOUR_OF_DAY, 23);
+        ca.set(Calendar.MINUTE, 59);
+        ca.set(Calendar.SECOND, 59);
+        ca.set(Calendar.MILLISECOND, 999);
+        return ca.getTimeInMillis();
+    }
 }

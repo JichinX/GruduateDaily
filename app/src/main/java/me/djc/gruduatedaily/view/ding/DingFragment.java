@@ -1,5 +1,6 @@
 package me.djc.gruduatedaily.view.ding;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import me.djc.common.widget.calender.CustomCalendarView;
 import me.djc.gruduatedaily.R;
 import me.djc.gruduatedaily.bean.DayWord;
 import me.djc.gruduatedaily.room.entity.Ding;
+import me.djc.gruduatedaily.view.PersonalActivity;
 import me.xujichang.xbase.baseutils.strings.StringFormatUtil;
 
 import java.util.*;
@@ -54,6 +56,7 @@ public class DingFragment extends BaseFragment {
     private TextView mTvDingLoss;
     private boolean mDingOperate = false;
     private Calendar selectedCalender;
+    private ImageView mIvPersonal;
 
     public DingFragment() {
         // Required empty public constructor
@@ -83,7 +86,7 @@ public class DingFragment extends BaseFragment {
         mTvSumDingAdd = inflate.findViewById(R.id.tv_sum_ding_add);
         mTvDingLoss = inflate.findViewById(R.id.tv_ding_loss);
         mTvDingMark = inflate.findViewById(R.id.tv_ding_mark);
-
+        mIvPersonal = inflate.findViewById(R.id.iv_personal);
         mCalendarView.setOnCalendarSelectListener(new CalendarView.OnCalendarSelectListener() {
             @Override
             public void onCalendarOutOfRange(Calendar calendar) {
@@ -132,6 +135,13 @@ public class DingFragment extends BaseFragment {
             public void onClick(View v) {
                 //补卡
                 showPatchDing();
+            }
+        });
+        mIvPersonal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //个人页面
+                startActivity(new Intent(getContext(), PersonalActivity.class));
             }
         });
         return inflate;

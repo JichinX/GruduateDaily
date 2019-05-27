@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.Guideline;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import me.djc.base.activity.BaseActivity;
+import me.djc.common.util.PrefUtil;
 import me.djc.gruduatedaily.R;
 import me.djc.gruduatedaily.room.entity.User;
 import me.djc.gruduatedaily.viewmodel.UserViewModel;
@@ -40,6 +41,9 @@ public class LoginActivity extends BaseActivity {
     private EditText mEtRegisterPwd;
     private EditText mEtRegisterPhone;
 
+    private String tempAccount;
+    private String tempPwd;
+
     @Override
     protected void onIntentData(Intent intent) {
 
@@ -65,6 +69,7 @@ public class LoginActivity extends BaseActivity {
             public void onChanged(Boolean eBoolean) {
                 //登录
                 if (eBoolean) {
+                    PrefUtil.saveLoginInfo(getContext(), tempAccount, tempPwd);
                     //登录成功
                     startActivity(new Intent(getContext(), MainActivity.class));
                     finish();
@@ -73,6 +78,11 @@ public class LoginActivity extends BaseActivity {
                 }
             }
         });
+        tempAccount = PrefUtil.getSavedAccount(this);
+        tempPwd = PrefUtil.getSavedPwd(this);
+        if (!TextUtils.isEmpty(tempAccount) && !TextUtils.isEmpty(tempPwd)) {
+            tryLogin(tempAccount, tempPwd);
+        }
     }
 
     @Override
@@ -150,6 +160,8 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void tryLogin(String account, String pwd) {
+        tempAccount = account;
+        tempPwd = pwd;
         mViewModel.login(account, pwd);
 
     }
