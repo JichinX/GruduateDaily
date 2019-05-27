@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GruduateDaily</string>
+    <string name="app_name">考研日记</string>
     <string name="title_home">计划</string>
     <string name="title_dashboard">打卡</string>
     <string name="title_notifications">统计</string>
