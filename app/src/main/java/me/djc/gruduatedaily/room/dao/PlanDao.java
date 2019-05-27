@@ -17,4 +17,13 @@ public interface PlanDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addPlan(Plan ePlan);
+
+    /**
+     * 获取一段时间内的计划
+     */
+    @Query("SELECT * FROM tbl_plan WHERE timeStart >= :eStart AND timeEnd <= :eEnd")
+    LiveData<List<Plan>> queryPlans(long eStart, long eEnd);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<Plan> eProducts);
 }

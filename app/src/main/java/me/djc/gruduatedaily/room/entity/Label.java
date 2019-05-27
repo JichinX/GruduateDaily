@@ -27,6 +27,17 @@ public class Label {
 
     private boolean enable;
 
+    public Label() {
+    }
+
+    public Label(long id, int eClolor, String eContent, String eRes, boolean eEnable) {
+        this.id = id;
+        clolor = eClolor;
+        content = eContent;
+        res = eRes;
+        enable = eEnable;
+    }
+
     public boolean isEnable() {
         return enable;
     }

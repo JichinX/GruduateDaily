@@ -1,6 +1,7 @@
 package me.djc.gruduatedaily.room;
 
 import android.content.Context;
+import android.graphics.Color;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -9,8 +10,15 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import me.djc.base.executors.AppExecutors;
+import me.djc.common.util.CalenderUtil;
+import me.djc.common.util.ColorUtils;
 import me.djc.gruduatedaily.room.dao.*;
 import me.djc.gruduatedaily.room.entity.*;
+import me.xujichang.xbase.baseutils.strings.StringFormatUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Des:GruduateDaily - me.djc.base.room
@@ -66,16 +74,17 @@ public abstract class AppDatabase extends RoomDatabase {
                         super.onCreate(db);
                         executors.diskIO().execute(() -> {
                             // Add a delay to simulate a long-running operation
-//                            addDelay();
+                            addDelay();
                             // Generate the data for pre-population
-//                            AppDatabase database = AppDatabase.getInstance(appContext, executors);
-//                            List<ProductEntity> products = DataGenerator.generateProducts();
-//                            List<CommentEntity> comments =
-//                                    DataGenerator.generateCommentsForProducts(products);
-//
-//                            insertData(database, products, comments);
+                            AppDatabase database = AppDatabase.getInstance(appContext, executors);
+                            List<Plan> products = DataGenerator.generatePlans();
+                            List<Label> vLabels = DataGenerator.generateLabels();
+                            List<Ding> comments =
+                                    DataGenerator.generateDings(products);
+
+                            insertData(database, products, comments, vLabels);
                             // notify that the database was created and it's ready to be used
-//                            database.setDatabaseCreated();
+                            database.setDatabaseCreated();
                         });
                     }
                 })
@@ -96,13 +105,14 @@ public abstract class AppDatabase extends RoomDatabase {
         mIsDatabaseCreated.postValue(true);
     }
 
-//    private static void insertData(final AppDatabase database, final List<ProductEntity> products,
-//                                   final List<CommentEntity> comments) {
-//        database.runInTransaction(() -> {
-//            database.productDao().insertAll(products);
-//            database.commentDao().insertAll(comments);
-//        });
-//    }
+    private static void insertData(final AppDatabase database, final List<Plan> products,
+                                   final List<Ding> comments, List<Label> eLabels) {
+        database.runInTransaction(() -> {
+            database.mPlanDao().insertAll(products);
+            database.mDingDao().insertAll(comments);
+            database.mLabelDao().insertAll(eLabels);
+        });
+    }
 
     private static void addDelay() {
         try {
@@ -115,15 +125,46 @@ public abstract class AppDatabase extends RoomDatabase {
         return mIsDatabaseCreated;
     }
 
-//    private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
-//
-//        @Override
-//        public void migrate(@NonNull SupportSQLiteDatabase database) {
-//            database.execSQL("CREATE VIRTUAL TABLE IF NOT EXISTS `productsFts` USING FTS4("
-//                    + "`name` TEXT, `description` TEXT, content=`products`)");
-//            database.execSQL("INSERT INTO productsFts (`rowid`, `name`, `description`) "
-//                    + "SELECT `id`, `name`, `description` FROM products");
-//
-//        }
-//    };
+    //TODO  测试数据
+    private static class DataGenerator {
+        private static Random mRandom = new Random();
+
+        public static List<Plan> generatePlans() {
+            List<Plan> vPlans = new ArrayList<>();
+            long current = System.currentTimeMillis();
+            //默认添加60天内的数据
+            for (int i = 0; i < 60; i++) {
+                long time = current - CalenderUtil.DAY_MS * (i + 1);
+                String date = StringFormatUtil.formatTime(time, "yyyy-MM-dd");
+                vPlans.add(new Plan(time - CalenderUtil.HOUR_MS, time + CalenderUtil.HOUR_MS, mRandom.nextInt(6) + 1, "默认", date));
+                vPlans.add(new Plan(time - CalenderUtil.HOUR_MS, time + CalenderUtil.HOUR_MS, mRandom.nextInt(6) + 1, "默认", date));
+                vPlans.add(new Plan(time - CalenderUtil.HOUR_MS, time + CalenderUtil.HOUR_MS, mRandom.nextInt(6) + 1, "默认", date));
+                vPlans.add(new Plan(time - CalenderUtil.HOUR_MS, time + CalenderUtil.HOUR_MS, mRandom.nextInt(6) + 1, "默认", date));
+                vPlans.add(new Plan(time - CalenderUtil.HOUR_MS, time + CalenderUtil.HOUR_MS, mRandom.nextInt(6) + 1, "默认", date));
+                vPlans.add(new Plan(time - CalenderUtil.HOUR_MS, time + CalenderUtil.HOUR_MS, mRandom.nextInt(6) + 1, "默认", date));
+                vPlans.add(new Plan(time - CalenderUtil.HOUR_MS, time + CalenderUtil.HOUR_MS, mRandom.nextInt(6) + 1, "默认", date));
+            }
+
+
+            return vPlans;
+        }
+
+        public static List<Ding> generateDings(List<Plan> eProducts) {
+            List<Ding> vDings = new ArrayList<>();
+
+
+            return vDings;
+        }
+
+        public static List<Label> generateLabels() {
+            List<Label> vLabels = new ArrayList<>();
+            vLabels.add(new Label(1, ColorUtils.createRandomColor(), "数学", "", true));
+            vLabels.add(new Label(2, ColorUtils.createRandomColor(), "化学", "", true));
+            vLabels.add(new Label(3, ColorUtils.createRandomColor(), "物理", "", true));
+            vLabels.add(new Label(4, ColorUtils.createRandomColor(), "线性代数", "", true));
+            vLabels.add(new Label(5, ColorUtils.createRandomColor(), "英语", "", true));
+            vLabels.add(new Label(6, ColorUtils.createRandomColor(), "图形学", "", true));
+            return vLabels;
+        }
+    }
 }

@@ -9,6 +9,9 @@ import java.util.Date;
  * @date 2019/05/16
  **/
 public class CalenderUtil {
+    public static final long DAY_MS = 24 * 60 * 60 * 1000;
+    public static final long HOUR_MS = 60 * 60 * 1000;
+
     public static long getTimeOfMonthStart() {
         Calendar ca = Calendar.getInstance();
         ca.set(Calendar.HOUR_OF_DAY, 0);
@@ -78,5 +81,20 @@ public class CalenderUtil {
         ca.clear(Calendar.SECOND);
         ca.clear(Calendar.MILLISECOND);
         return ca.getTimeInMillis();
+    }
+
+    public static long getDayStartMs() {
+        long eCurrent = System.currentTimeMillis();
+        Calendar ca = Calendar.getInstance();
+        ca.setTime(new Date(eCurrent));
+        ca.set(Calendar.HOUR_OF_DAY, 0);
+        ca.clear(Calendar.MINUTE);
+        ca.clear(Calendar.SECOND);
+        ca.clear(Calendar.MILLISECOND);
+        return ca.getTimeInMillis();
+    }
+
+    public static long DAYS(int number) {
+        return DAY_MS * number;
     }
 }

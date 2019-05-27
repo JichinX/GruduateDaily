@@ -16,6 +16,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/iv_personal"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:src="@drawable/ic_app_person_avater"

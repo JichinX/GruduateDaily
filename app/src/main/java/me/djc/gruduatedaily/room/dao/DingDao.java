@@ -49,4 +49,7 @@ public interface DingDao {
      */
     @Query("SELECT * FROM tbl_ding WHERE dayMs >= :eStartMs AND dayMs <= :eEndMs ")
     List<Ding> queryMonthDings(long eStartMs, long eEndMs);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<Ding> eComments);
 }

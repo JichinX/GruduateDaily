@@ -1,12 +1,17 @@
 package me.djc.gruduatedaily.view.analysis;
 
 import android.os.Bundle;
+import android.util.LongSparseArray;
 import android.view.View;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import me.djc.base.fragment.SimpleFragment;
 import me.djc.gruduatedaily.R;
-import me.djc.gruduatedaily.bean.AnalysisData;
+import me.djc.gruduatedaily.room.entity.Label;
+import me.djc.gruduatedaily.room.entity.Plan;
 import me.djc.gruduatedaily.view.analysis.adapter.AnalysisItemAdapter;
 import me.djc.gruduatedaily.base.AppConst;
 
@@ -18,10 +23,16 @@ public class DataAnalysisFragment extends SimpleFragment {
     private int mType;
     private RecyclerView mRvDatas;
     private AnalysisItemAdapter mItemAdapter;
-    private List<AnalysisData> mDataList;
+    private LongSparseArray<LabelProxy> mDataList;
+    private AnalysisViewModel mViewModel;
+
+    private List<Label> mLabels;
+    private List<Plan> mPlans;
 
     private DataAnalysisFragment() {
-        mDataList = new ArrayList<>();
+        mLabels = new ArrayList<>();
+        mPlans = new ArrayList<>();
+        mDataList = new LongSparseArray<>();
         mItemAdapter = new AnalysisItemAdapter(mDataList);
     }
 
@@ -41,10 +52,32 @@ public class DataAnalysisFragment extends SimpleFragment {
 
     @Override
     public void onDataLazyLoad() {
-        mDataList.add(new AnalysisData("数学", mType));
-        mDataList.add(new AnalysisData("物理", mType));
-        mDataList.add(new AnalysisData("线性代数", mType));
-        mDataList.add(new AnalysisData("英语", mType));
+        mViewModel = ViewModelProviders.of(getActivity()).get(AnalysisViewModel.class);
+        mViewModel.getEnabledLabels().observe(getLifecycleOwner(), new Observer<List<Label>>() {
+            @Override
+            public void onChanged(List<Label> eLabels) {
+                //获取在可用状态下的标签
+                mLabels.clear();
+                mLabels.addAll(eLabels);
+                refresh();
+            }
+        });
+        LiveData<List<Plan>> vLiveData;
+        if (mType == AppConst.Analysistype.TAG_MONTH) {
+            vLiveData = mViewModel.getMonthPlans();
+        } else {
+            vLiveData = mViewModel.getWeekPlans();
+        }
+        vLiveData.observe(getLifecycleOwner(), new Observer<List<Plan>>() {
+            @Override
+            public void onChanged(List<Plan> ePlans) {
+                //获取到计划列表
+                mPlans.clear();
+                mPlans.addAll(ePlans);
+                refresh();
+            }
+        });
+
         mItemAdapter.notifyDataSetChanged();
     }
 
@@ -60,5 +93,62 @@ public class DataAnalysisFragment extends SimpleFragment {
     @Override
     protected int onCreateViewRes() {
         return R.layout.fragment_data_analysis;
+    }
+
+    @Override
+    public void refresh() {
+        //刷新数据
+        mDataList.clear();
+        //首先按标签整理
+
+        for (Label vLabel : mLabels) {
+            mDataList.put(vLabel.getId(), new LabelProxy(vLabel));
+        }
+        //将计划按标签分类
+        for (Plan vPlan : mPlans) {
+            long labelID = vPlan.getLabelId();
+            if (labelID > 0) {
+                if (mDataList.indexOfKey(labelID) >= 0) {
+                    mDataList.get(labelID).addPlan(vPlan);
+                }
+            }
+        }
+
+        mItemAdapter.notifyDataSetChanged();
+    }
+
+    public class LabelProxy {
+        private Label mLabel;
+        private List<Plan> mPlans;
+
+        public Label getLabel() {
+            return mLabel;
+        }
+
+        public void setLabel(Label eLabel) {
+            mLabel = eLabel;
+        }
+
+        public List<Plan> getPlans() {
+            if (null == mPlans) {
+                mPlans = new ArrayList<>();
+            }
+            return mPlans;
+        }
+
+        public void setPlans(List<Plan> ePlans) {
+            mPlans = ePlans;
+        }
+
+        public LabelProxy(Label eLabel) {
+            mLabel = eLabel;
+        }
+
+        public void addPlan(Plan ePlan) {
+            if (null == mPlans) {
+                mPlans = new ArrayList<>();
+            }
+            mPlans.add(ePlan);
+        }
     }
 }

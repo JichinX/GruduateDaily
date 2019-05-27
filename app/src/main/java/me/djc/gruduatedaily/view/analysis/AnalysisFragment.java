@@ -23,9 +23,9 @@ public class AnalysisFragment extends SimpleFragment {
 
     private AnalysisFragment() {
         mFragmentMap = new LinkedHashMap<>();
-        mFragmentMap.put("日", DataAnalysisFragment.newInstance(AppConst.Analysistype.TAG_DAY));
+        mFragmentMap.put("日", DayAnalysisFragment.newInstance());
         mFragmentMap.put("周", DataAnalysisFragment.newInstance(AppConst.Analysistype.TAG_WEEK));
-        mFragmentMap.put("本月", DataAnalysisFragment.newInstance(AppConst.Analysistype.TAG_MOUNTH));
+        mFragmentMap.put("本月", DataAnalysisFragment.newInstance(AppConst.Analysistype.TAG_MONTH));
     }
 
     public static AnalysisFragment newInstance() {

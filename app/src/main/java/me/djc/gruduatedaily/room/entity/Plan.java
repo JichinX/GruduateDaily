@@ -61,6 +61,17 @@ public class Plan {
         return labelId;
     }
 
+    public Plan() {
+    }
+
+    public Plan(long eTimeStart, long eTimeEnd, long eLabelId, String eLabel, String eDate) {
+        timeStart = eTimeStart;
+        timeEnd = eTimeEnd;
+        labelId = eLabelId;
+        label = eLabel;
+        date = eDate;
+    }
+
     public void setLabelId(long eLabelId) {
         labelId = eLabelId;
     }

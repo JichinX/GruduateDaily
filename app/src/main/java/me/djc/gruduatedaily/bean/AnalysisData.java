@@ -1,33 +1,39 @@
 package me.djc.gruduatedaily.bean;
 
+import me.djc.gruduatedaily.room.entity.Label;
+import me.djc.gruduatedaily.room.entity.Plan;
+
+import java.util.List;
+
 /**
  * @author xujichang
  * @date 2019/05/15
  **/
 public class AnalysisData {
-    private int mType;
-    private String mTitle;
+    private Label mLabel;
+    private List<Plan> mPlans;
 
-    public AnalysisData(String title, int type) {
-        mTitle = title;
-        mType = type;
+    public AnalysisData(Label eLabel, List<Plan> ePlans) {
+        mLabel = eLabel;
+        mPlans = ePlans;
     }
 
-    public int getType() {
-
-        return mType;
+    public AnalysisData() {
     }
 
-    public void setType(int eType) {
-        mType = eType;
+    public Label getLabel() {
+        return mLabel;
     }
 
-    public String getTitle() {
-
-        return mTitle;
+    public void setLabel(Label eLabel) {
+        mLabel = eLabel;
     }
 
-    public void setTitle(String eTitle) {
-        mTitle = eTitle;
+    public List<Plan> getPlans() {
+        return mPlans;
+    }
+
+    public void setPlans(List<Plan> ePlans) {
+        mPlans = ePlans;
     }
 }

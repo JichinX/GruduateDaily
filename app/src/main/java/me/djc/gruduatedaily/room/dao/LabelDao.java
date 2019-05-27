@@ -19,4 +19,15 @@ public interface LabelDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void update(Label eLabel);
+
+    /**
+     * 查询可用状态下的 标签
+     *
+     * @return
+     */
+    @Query("SELECT * FROM tbl_label WHERE enable = 1")
+    LiveData<List<Label>> queryEnabledLabels();
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<Label> eLabels);
 }
